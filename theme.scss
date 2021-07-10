@@ -1,0 +1,247 @@
+ /*
+fonts: 
+*/
+ 
+ ////Font impots
+ @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Antic+Slab&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Antic+Slab&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Cookie&family=Economica:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Limelight&display=swap');
+ /*
+font-family: 'Cookie', cursive;
+font-family: 'Economica', sans-serif;
+font-family: 'Ubuntu Mono', monospace;
+font-family: 'Open Sans';
+font-family: 'Rock Salt', cursive;
+font-family: 'Lexend Deca', sans-serif,
+font-family: 'Limelight', cursive;
+ 
+*/
+ /*
+ * Theme definitions
+ */
+ 
+ $minimal:( backgroundcolor: #FF4F61,
+ secondary-color: #ffca3a,
+ primary-color: #6b0156,
+ dark-primary:#343B3C,
+ dark-deep:#1E2425,
+ shadow:#6b01566b,
+ textColor: #ffffff,
+ textDark:#1E2425,
+ hovercolor:#491b40,
+ hovercolor2: #f8ce90,
+ font-primary:'Open Sans',
+ font-secondary:'Limelight');
+ $light:( backgroundcolor: #FFFFFF,
+ secondary-color: #FFCA00,
+ primary-color: #ff4602,
+ dark-primary:#00F2FF,
+ dark-deep:#2A2F3D,
+ shadow:#ff5a1eab,
+ textColor: #2A2F3D,
+ textDark:#FFFFFF,
+ hovercolor: #db3a00,
+ hovercolor2:#db7c00,
+ font-primary:'cursive',
+ font-secondary:'Lexend Deca');
+ $dark:( backgroundcolor: #1E2425,
+ secondary-color: #FF4F61,
+ primary-color: #3a4647,
+ dark-primary: #FFCB3A,
+ dark-deep:#6b0156,
+ shadow:#5e6566,
+ textColor: #ffffff,
+ textDark:#1E2425,
+ hovercolor:#415f63,
+ hovercolor2:#fc717f,
+ font-primary:'Open Sans',
+ font-secondary:'Limelight');
+ $themes: ( minimal: $minimal,
+ light: $light,
+ dark: $dark);
+ /*
+   * Implementation of themes
+   */
+ 
+ @mixin themify($themes) {
+     @each $theme,
+     $map in $themes {
+         .theme-#{$theme} & {
+             $theme-map: () !global;
+             @each $key,
+             $submap in $map {
+                 $value: map-get(map-get($themes,
+                 $theme),
+                 '#{$key}');
+                 $theme-map: map-merge($theme-map, ($key: $value)) !global;
+             }
+             @content;
+             $theme-map: null !global;
+         }
+     }
+ }
+ 
+ @function themed($key) {
+     @return map-get($theme-map,
+     $key);
+ }
+ /*
+   * Actual styles for the app
+   */
+ 
+ body {
+     margin: 0;
+     font-family: 'Open Sans';
+ }
+ 
+ html,
+ body {
+     height: 100%;
+ }
+ 
+ #app-root {
+     margin: 0;
+     padding: 0;
+     height: 100%;
+     display: flex;
+     flex-direction: column;
+     >div {
+         display: flex;
+         flex: 1;
+     }
+ }
+ 
+ .title {
+     font-weight: lighter;
+     font-size: 6rem;
+     line-height: 6rem;
+     letter-spacing: 0.8rem;
+     font-weight: 600;
+     @include themify($themes) {
+         color: themed('secondary-color');
+         font-family: themed('font-primary');
+     }
+ }
+ 
+ .sub-title {
+     font-weight: lighter;
+     font-size: 4rem;
+     line-height: 4rem;
+     letter-spacing: 0.1rem;
+     font-weight: 500;
+     @include themify($themes) {
+         font-family: themed('font-secondary');
+     }
+ }
+ 
+ .text-sm {
+     font-family: 'Open Sans';
+     font-weight: lighter;
+     font-size: 1.5rem;
+     line-height: 1.5rem;
+     font-weight: 500;
+     letter-spacing: 0.1rem;
+ }
+ 
+ .btn-custom-one {
+     max-width: 20em;
+     cursor: pointer;
+     border-radius: 3px;
+     padding: 0.6rem 2rem;
+     display: inline-block;
+     font-size: 16px;
+     font-family: 'Exo 2', sans-serif;
+     text-transform: uppercase;
+     transition: color 0.3s, background-color 0.3s;
+     font-weight: 600;
+     @include themify($themes) {
+         border: 0px;
+         color: themed('secondary-color');
+         background-color: themed('primary-color');
+         //box-shadow: 2px 2px 12px themed('shadow');
+         text-transform: themed('buttonTextTransform');
+         &:hover {
+             color: themed('secondary-color');
+             background-color: themed('hovercolor');
+         }
+     }
+ }
+ 
+ .btn-custom-two {
+     max-width: 20em;
+     cursor: pointer;
+     border-radius: 3px;
+     padding: 0.8rem 2rem;
+     display: inline-block;
+     font-size: 1.2rem;
+     font-family: 'Exo 2', sans-serif;
+     text-transform: uppercase;
+     transition: color 0.3s, background-color 0.3s;
+     font-weight: 600;
+     @include themify($themes) {
+         border: 0px;
+         color: themed('backgroundcolor');
+         background-color: themed('secondary-color');
+         //box-shadow: 2px 2px 12px themed('shadow');
+         text-transform: themed('buttonTextTransform');
+         &:hover {
+             color: themed('backgroundcolor');
+             background-color: themed('hovercolor2');
+         }
+     }
+ }
+ 
+ .container {
+     @include themify($themes) {
+         color: themed('textColor')!important;
+         background: themed('backgroundcolor')!important;
+     }
+ }
+ 
+ .container-fluid {
+     @include themify($themes) {
+         color: themed('textColor')!important;
+         background-color: themed('backgroundcolor')!important;
+     }
+ }
+ /*
+    PrimeNg custom designs
+ */
+ 
+ .p-float-label {
+     &:focus {
+         @include themify($themes) {
+             label {
+                 color: themed('secondary-color')
+             }
+         }
+     }
+     input {
+         border: 0px;
+         padding-top: 0.6rem;
+         padding-bottom: 0.6rem;
+         padding-left: 0.2rem;
+         outline: none;
+         &:focus {
+             @include themify($themes) {
+                 border-bottom: 2px solid themed('primary-color');
+                 background-color: themed('backgroundcolor');
+                 color: themed('textColor');
+             }
+         }
+         @include themify($themes) {
+             border-bottom: 2px solid themed('secondary-color');
+             background-color: themed('backgroundcolor');
+             color: themed('textColor')
+         }
+     }
+     label {
+         @include themify($themes) {
+             color: themed('textColor')
+         }
+     }
+ }
